@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: aws-cli-sa
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::828162785311:role/default-playground-cluster-role
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aws-cli
+spec:
+  template:
+      spec:
+        containers:
+        - name: aws-cli
+          image: amazon/aws-cli:latest
+          command: ["aws",  "s3", "ls"]
+        restartPolicy: Never
+        serviceAccountName: "aws-cli-sa"
+  backoffLimit: 4
