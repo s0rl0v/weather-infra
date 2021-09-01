@@ -17,6 +17,7 @@ This repo consists of Terraform code that deploys an EKS cluster (`eks` folder) 
 ```
 # kubectl apply -f example.yml
 # kubectl logs aws-cli
+```
 
 # Usage
 
