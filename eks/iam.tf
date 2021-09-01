@@ -1,6 +1,11 @@
 data "aws_iam_policy_document" "pod_policy" {
   statement {
     effect    = "Allow"
+    actions   = ["secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"]
+    resources = [aws_secretsmanager_secret._.arn]
+  }
+  statement {
+    effect    = "Allow"
     actions   = ["s3:*"]
     resources = ["*"]
   }

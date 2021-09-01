@@ -1,14 +1,10 @@
 terraform {
   backend "s3" {
-    key = "terraform/eks.tfstate"
+    bucket  = "okeer-devops"
+    region  = "us-east-1"
+    profile = "sorlov"
+    key     = "terraform/eks.tfstate"
   }
 
   required_version = "~> 1.0.0"
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
-    }
-  }
 }

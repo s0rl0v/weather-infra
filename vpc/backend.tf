@@ -1,6 +1,9 @@
 terraform {
   backend "s3" {
-    key = "terraform/vpc.tfstate"
+    bucket  = "okeer-devops"
+    key     = "terraform/vpc.tfstate"
+    region  = "us-east-1"
+    profile = "sorlov"
   }
 
   required_version = "~> 1.0.0"
