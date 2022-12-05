@@ -28,14 +28,13 @@ module "eks" {
     ami_type                              = "AL2_x86_64"
     disk_size                             = 50
     instance_types                        = ["t3.small"]
-    attach_cluster_primary_security_group = true
   }
 
   eks_managed_node_groups = {
     general = {
       min_size      = 1
-      max_size      = 1
-      desired_size  = 1
+      max_size      = 3
+      desired_size  = 2
       capacity_type = "ON_DEMAND"
       labels = {
         node-type = "general"
@@ -47,4 +46,54 @@ module "eks" {
       }
     }
   }
+
+# Extend cluster security group rules
+  cluster_security_group_additional_rules = {
+    ingress_local_traffic = {
+      description = "Allow traffic from S2S VPN"
+      protocol    = "-1"
+      from_port   = 0
+      to_port     = 0
+      type        = "ingress"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+    egress_nodes_ephemeral_ports_tcp = {
+      description                = "To node 1025-65535"
+      protocol                   = "tcp"
+      from_port                  = 1025
+      to_port                    = 65535
+      type                       = "egress"
+      source_node_security_group = true
+    }
+  }
+
+  # Extend node-to-node security group rules
+  node_security_group_additional_rules = {
+    ingress_cluster_self_all = {
+      description                   = "Cluster to node all traffic"
+      protocol                      = "-1"
+      from_port                     = 0
+      to_port                       = 0
+      type                          = "ingress"
+      source_cluster_security_group = true
+    }
+    ingress_self_all = {
+      description = "Node to node all ports/protocols"
+      protocol    = "-1"
+      from_port   = 0
+      to_port     = 0
+      type        = "ingress"
+      self        = true
+    }
+    egress_all = {
+      description      = "Node all egress"
+      protocol         = "-1"
+      from_port        = 0
+      to_port          = 0
+      type             = "egress"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+    }
+  }
+
 }
