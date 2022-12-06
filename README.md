@@ -1,6 +1,11 @@
 # Overview
 
-This repo consists of Terraform code that deploys an EKS cluster into a VPC.
+This repo consists of Terraform code that provisions the following resources to AWS:
+* EKS cluster with managed nodes;
+* ECR repo for the demo application;
+* IRSA modules to enable eks workloads to access AWS resources.
+
+Further configuration and boostrapping could be done [with ArgoCD](/https://github.com/s0rl0v/weather-k8s-deployments).
 
 # Installation
 
