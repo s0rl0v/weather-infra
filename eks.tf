@@ -27,14 +27,14 @@ module "eks" {
   eks_managed_node_group_defaults = {
     ami_type                              = "AL2_x86_64"
     disk_size                             = 50
-    instance_types                        = ["t3.medium"]
+    instance_types                        = ["t3.small"]
   }
 
   eks_managed_node_groups = {
     general = {
       min_size      = 1
-      max_size      = 3
-      desired_size  = 3
+      max_size      = 5
+      desired_size  = 5
       capacity_type = "ON_DEMAND"
       labels = {
         node-type = "general"
