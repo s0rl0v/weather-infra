@@ -34,7 +34,7 @@ module "eks" {
     general = {
       min_size      = 1
       max_size      = 3
-      desired_size  = 2
+      desired_size  = 3
       capacity_type = "ON_DEMAND"
       labels = {
         node-type = "general"
